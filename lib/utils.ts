@@ -87,6 +87,7 @@ export function removeKeysFromQuery({
 
 // DEBOUNCE
 export const debounce = (func: (...args: any[]) => void, delay: number) => {
+  // eslint-disable-next-line no-undef
   let timeoutId: NodeJS.Timeout | null;
   return (...args: any[]) => {
     if (timeoutId) clearTimeout(timeoutId);
