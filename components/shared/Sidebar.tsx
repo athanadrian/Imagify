@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import AppIcon from './app-ui/AppIcon';
 import { appIcons } from '@/constants/appIcons';
-import { authMenu, userMenu } from '@/constants/lookup-data/menu';
+import { userMenu } from '@/constants/lookup-data/menu';
 import { IconType } from 'react-icons';
 import { useNavigation } from '@/hooks/useNavigation';
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';

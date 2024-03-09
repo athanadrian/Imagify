@@ -5,17 +5,20 @@ import {
   MdSubscriptions,
   MdOutlineAdd,
 } from 'react-icons/md';
-import { PiUserCirclePlusBold, PiUsersThree } from 'react-icons/pi';
+import {
+  PiUserCirclePlusBold,
+  PiUsersThree,
+  PiImageDuotone,
+} from 'react-icons/pi';
 import { TfiUser } from 'react-icons/tfi';
-import { HiPower } from 'react-icons/hi2';
+import { HiPower, HiCamera } from 'react-icons/hi2';
 import { HiMenuAlt3 } from 'react-icons/hi';
 import { BsStars } from 'react-icons/bs';
 import { RiUserReceived2Line } from 'react-icons/ri';
 import { BiSolidShoppingBag } from 'react-icons/bi';
-import { PiImageDuotone } from 'react-icons/pi';
 import { LuScanLine } from 'react-icons/lu';
 import { AiOutlineBgColors } from 'react-icons/ai';
-import { HiCamera } from 'react-icons/hi2';
+import { FiZap } from 'react-icons/fi';
 import { GoHomeFill } from 'react-icons/go';
 
 export const appIcons = {
@@ -34,6 +37,7 @@ export const appIcons = {
   'remove-bg': HiCamera,
   credits: BiSolidShoppingBag,
   menu: HiMenuAlt3,
+  'free-plan': FiZap,
 
   logout: HiPower,
   sign_in: RiUserReceived2Line,
