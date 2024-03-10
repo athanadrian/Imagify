@@ -1,9 +1,20 @@
+import PageHeader from '@/components/shared/PageHeader';
+import TransformationForm from '@/components/shared/TransformationForm';
+import { transformationTypes } from '@/constants/lookup-data';
+import { SearchParamProps } from '@/types';
 import React from 'react';
 
-interface Props {}
-
-const AddTransformationTypePage = (props: Props) => {
-  return <div>AddTransformationTypePage</div>;
+const AddTransformationTypePage = ({ params: { type } }: SearchParamProps) => {
+  const transformation = transformationTypes[type];
+  return (
+    <>
+      <PageHeader
+        title={transformation.title}
+        subTitle={transformation.subTitle}
+      />
+      <TransformationForm />
+    </>
+  );
 };
 
 export default AddTransformationTypePage;
