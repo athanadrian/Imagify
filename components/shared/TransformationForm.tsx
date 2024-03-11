@@ -5,30 +5,49 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+import { defaultValues } from '@/constants/lookup-data';
+import { TransformationFormProps } from '@/types';
+import AppField from './app-ui/AppField';
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  title: z.string(),
+  aspectRatio: z.string().optional(),
+  color: z.string().optional(),
+  prompt: z.string().optional(),
+  publicId: z.string(),
 });
 
-type Props = {};
-
-const TransformationForm = (props: Props) => {
+const TransformationForm = ({
+  action,
+  type,
+  // userId,
+  // creditBalance,
+  data = null,
+}: TransformationFormProps) => {
+  const initialValues =
+    data && action === 'Update'
+      ? {
+          title: data?.title,
+          aspectRatio: data?.aspectRatio,
+          color: data?.color,
+          prompt: data?.prompt,
+          publicId: data?.publicId,
+        }
+      : defaultValues;
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: '',
-    },
+    defaultValues: initialValues,
   });
 
   // 2. Define a submit handler.
@@ -40,22 +59,33 @@ const TransformationForm = (props: Props) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-        <FormField
+        <AppField
+          name='title'
+          formLabel='Image Title'
+          className='w-full'
           control={form.control}
-          name='username'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder='placeholder' {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => <Input {...field} className='input-field' />}
         />
+        {type === 'fill' && (
+          <AppField
+            name='aspectRatio'
+            formLabel='Aspect Ratio'
+            className='w-full'
+            control={form.control}
+            render={({ field }) => (
+              <Select>
+                <SelectTrigger className='w-[180px]'>
+                  <SelectValue placeholder='Theme' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='light'>Light</SelectItem>
+                  <SelectItem value='dark'>Dark</SelectItem>
+                  <SelectItem value='system'>System</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+        )}
         <Button type='submit'>Submit</Button>
       </form>
     </Form>
