@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,9 +16,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import { defaultValues } from '@/constants/lookup-data';
-import { TransformationFormProps } from '@/types';
+import {
+  aspectRatioOptions,
+  defaultValues,
+  transformationTypes,
+} from '@/constants/lookup-data';
+import { TransformationFormProps, Transformations } from '@/types';
 import AppField from './app-ui/AppField';
+import { useState } from 'react';
+import { AspectRatioKey } from '@/lib/utils';
+import config from 'next/config';
 
 const formSchema = z.object({
   title: z.string(),
@@ -30,10 +38,18 @@ const formSchema = z.object({
 const TransformationForm = ({
   action,
   type,
-  // userId,
-  // creditBalance,
+  userId,
+  creditBalance,
+  config = null,
   data = null,
 }: TransformationFormProps) => {
+  const transformationType = transformationTypes[type];
+  const [image, setImage] = useState(data);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTransforming, setIsTransforming] = useState(false);
+  const [transformationConfig, setTransformationConfig] = useState(config);
+  const [newTransformation, setNewTransformation] =
+    useState<Transformations | null>(null);
   const initialValues =
     data && action === 'Update'
       ? {
@@ -44,6 +60,23 @@ const TransformationForm = ({
           publicId: data?.publicId,
         }
       : defaultValues;
+
+  const onSelectFieldHandler = (
+    value: string,
+    onChangeField: (value: string) => void
+  ) => {};
+
+  const onInputChangeHandler = (
+    fieldName: string,
+    value: string,
+    type: string,
+    onChangeField: (value: string) => void
+  ) => {};
+
+  const onTransformHandler = () => {
+    //
+  };
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -73,20 +106,90 @@ const TransformationForm = ({
             className='w-full'
             control={form.control}
             render={({ field }) => (
-              <Select>
-                <SelectTrigger className='w-[180px]'>
-                  <SelectValue placeholder='Theme' />
+              <Select
+                onValueChange={(value) =>
+                  onSelectFieldHandler(value, field.onChange)
+                }
+              >
+                <SelectTrigger className='select-field'>
+                  <SelectValue placeholder='Select size' />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value='light'>Light</SelectItem>
-                  <SelectItem value='dark'>Dark</SelectItem>
-                  <SelectItem value='system'>System</SelectItem>
+                  {Object.keys(aspectRatioOptions).map((key) => (
+                    <SelectItem value={key} key={key} className='select-item'>
+                      {aspectRatioOptions[key as AspectRatioKey].label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             )}
           />
         )}
-        <Button type='submit'>Submit</Button>
+        {(type === 'remove' || type === 'recolor') && (
+          <div className='prompt-field'>
+            <AppField
+              control={form.control}
+              name='prompt'
+              formLabel={type === 'remove' ? 'Object remove' : 'Object recolor'}
+              className='w-full'
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  className='input-field'
+                  onChange={(e) =>
+                    onInputChangeHandler(
+                      'prompt',
+                      e.target.value,
+                      type,
+                      field.onChange
+                    )
+                  }
+                />
+              )}
+            />
+          </div>
+        )}
+        {type === 'recolor' && (
+          <div className='prompt-field'>
+            <AppField
+              control={form.control}
+              name='color'
+              formLabel='Color'
+              className='w-full'
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  className='input-field'
+                  onChange={(e) =>
+                    onInputChangeHandler(
+                      'color',
+                      e.target.value,
+                      'recolor',
+                      field.onChange
+                    )
+                  }
+                />
+              )}
+            />
+          </div>
+        )}
+        <div className='flex flex-col gap-4'>
+          <Button
+            className='submit-button capitalize'
+            type='button'
+            disabled={isTransforming || newTransformation === null}
+            onClick={onTransformHandler}
+          >
+            {isTransforming ? 'Transforming...' : 'Apply transformation'}
+          </Button>
+          <Button
+            className='submit-button capitalize'
+            type='submit'
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Submitting' : 'Save image'}
+          </Button>
+        </div>
       </form>
     </Form>
   );
