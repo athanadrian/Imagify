@@ -24,7 +24,7 @@ import {
 import { TransformationFormProps, Transformations } from '@/types';
 import AppField from './app-ui/AppField';
 import { useState } from 'react';
-import { AspectRatioKey } from '@/lib/utils';
+import { AspectRatioKey, debounce } from '@/lib/utils';
 import config from 'next/config';
 
 const formSchema = z.object({
@@ -66,12 +66,12 @@ const TransformationForm = ({
     onChangeField: (value: string) => void
   ) => {
     const imageSize = aspectRatioOptions[value as AspectRatioKey];
-    setImage((prevState:any) => ({
+    setImage((prevState: any) => ({
       ...prevState,
-      aspectRation:imageSize.aspectRatio,
-      width:imageSize.width,
-      height:imageSize.height
-    }))
+      aspectRation: imageSize.aspectRatio,
+      width: imageSize.width,
+      height: imageSize.height,
+    }));
     setTransformationConfig(transformationType.config);
 
     return onChangeField(value);
@@ -82,7 +82,18 @@ const TransformationForm = ({
     value: string,
     type: string,
     onChangeField: (value: string) => void
-  ) => {};
+  ) => {
+    debounce(() => {
+      setNewTransformation((prevState: any) => ({
+        ...prevState,
+        [type]: {
+          ...prevState?.[type],
+          [fieldName === 'prompt' ? 'prompt' : 'to']: value,
+        },
+      }));
+      return onChangeField(value);
+    }, 1000);
+  };
 
   const onTransformHandler = () => {
     //
