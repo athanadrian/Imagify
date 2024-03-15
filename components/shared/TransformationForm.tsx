@@ -25,7 +25,8 @@ import { TransformationFormProps, Transformations } from '@/types';
 import AppField from './app-ui/AppField';
 import { useState } from 'react';
 import { AspectRatioKey, debounce } from '@/lib/utils';
-import config from 'next/config';
+import MediaUploader from './MediaUploader';
+import TransformedImage from './TransformedImage';
 
 const formSchema = z.object({
   title: z.string(),
@@ -195,6 +196,30 @@ const TransformationForm = ({
             />
           </div>
         )}
+        <div className='media-uploader-field'>
+          <AppField
+            control={form.control}
+            name='publicId'
+            className='flex size-full flex-col'
+            render={({ field }) => (
+              <MediaUploader
+                onValueChange={field.onChange}
+                publicId={field.value}
+                setImage={setImage}
+                image={image}
+                type={type}
+              />
+            )}
+          />
+          <TransformedImage
+            image={image}
+            type={type}
+            title={form.getValues().title}
+            isTransforming={isTransforming}
+            setIsTransforming={setIsTransforming}
+            transformationConfig={transformationConfig}
+          />
+        </div>
         <div className='flex flex-col gap-4'>
           <Button
             className='submit-button capitalize'
