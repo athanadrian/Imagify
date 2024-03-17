@@ -24,7 +24,7 @@ const TransformedImage = ({
         {hasDownload && (
           <button className='download-btn' onClick={downloadHandler}>
             <AppIcon
-              icon={appIcons.download}
+              icon={appIcons.dashboard}
               className='pb-[6px] text-purple-500'
               size={30}
               tooltipText='Download'
@@ -55,7 +55,7 @@ const TransformedImage = ({
           {isTransforming && (
             <div className='transforming-loader'>
               <AppIcon
-                icon={appIcons.spinner}
+                icon={appIcons.dashboard}
                 size={50}
                 className='text-purple-400'
               />
