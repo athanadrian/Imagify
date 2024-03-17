@@ -17,11 +17,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import {
-  aspectRatioOptions,
-  defaultValues,
-  transformationTypes,
-} from '@/constants/lookup-data';
 import { TransformationFormProps, Transformations } from '@/types';
 import AppField from './app-ui/AppField';
 import { AspectRatioKey, debounce, deepMergeObjects } from '@/lib/utils';
@@ -31,6 +26,9 @@ import { updateCredits } from '@/lib/actions/user.actions';
 import { getCldImageUrl } from 'next-cloudinary';
 import { addImage, updateImage } from '@/lib/actions/image.actions';
 import { useNavigation } from '@/hooks/useNavigation';
+import { transformationTypes } from '@/constants/lookup-data/transformationTypes';
+import { defaultValues } from '@/constants/lookup-data/misc';
+import { aspectRatioOptions } from '@/constants/lookup-data/aspectRatioOptions';
 
 const formSchema = z.object({
   title: z.string(),

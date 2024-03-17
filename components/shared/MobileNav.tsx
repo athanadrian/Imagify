@@ -5,7 +5,7 @@ import Link from 'next/link';
 import AppIcon from './app-ui/AppIcon';
 import { appIcons } from '@/constants/appIcons';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import { userMenu } from '@/constants/lookup-data';
+import { userMenu } from '@/constants/lookup-data/menu';
 import { IconType } from 'react-icons';
 import { useNavigation } from '@/hooks/useNavigation';
 import { Button } from '../ui/button';

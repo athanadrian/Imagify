@@ -1,11 +1,12 @@
-import PageHeader from '@/components/shared/PageHeader';
-import TransformationForm from '@/components/shared/TransformationForm';
-import { transformationTypes } from '@/constants/lookup-data';
-import { getUserById } from '@/lib/actions/user.actions';
-import { SearchParamProps, TransformationTypeKey } from '@/types';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import React from 'react';
+
+import PageHeader from '@/components/shared/PageHeader';
+import TransformationForm from '@/components/shared/TransformationForm';
+import { transformationTypes } from '@/constants/lookup-data/transformationTypes';
+import { getUserById } from '@/lib/actions/user.actions';
+import { SearchParamProps, TransformationTypeKey } from '@/types';
 
 const AddTransformationTypePage = async ({
   params: { type },
@@ -22,14 +23,14 @@ const AddTransformationTypePage = async ({
         title={transformation.title}
         subTitle={transformation.subTitle}
       />
-      <section className="mt-10">
-      <TransformationForm
-        action='Add'
-        userId={dbUser._id}
-        creditBalance={dbUser.creditBalance}
-        type={transformation.type as TransformationTypeKey}
+      <section className='mt-10'>
+        <TransformationForm
+          action='Add'
+          userId={dbUser._id}
+          creditBalance={dbUser.creditBalance}
+          type={transformation.type as TransformationTypeKey}
         />
-        </section>
+      </section>
     </>
   );
 };

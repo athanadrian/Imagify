@@ -20,8 +20,8 @@ import { LuScanLine } from 'react-icons/lu';
 import { AiOutlineBgColors } from 'react-icons/ai';
 import { FiZap } from 'react-icons/fi';
 import { GoHomeFill } from 'react-icons/go';
-// import { IoDownloadSharp } from 'react-icons/io5';
-// import { ImSpinner8 } from 'react-icons/im';
+import { IoDownloadSharp } from 'react-icons/io5';
+import { ImSpinner8 } from 'react-icons/im';
 
 export const appIcons = {
   dashboard: MdDashboard,
@@ -40,8 +40,8 @@ export const appIcons = {
   credits: BiSolidShoppingBag,
   menu: HiMenuAlt3,
   'free-plan': FiZap,
-  // download: IoDownloadSharp,
-  // spinner: ImSpinner8,
+  download: IoDownloadSharp,
+  spinner: ImSpinner8,
 
   logout: HiPower,
   sign_in: RiUserReceived2Line,
