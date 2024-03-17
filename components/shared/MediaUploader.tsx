@@ -2,10 +2,10 @@
 import React, { Dispatch } from 'react';
 import { useToast } from '../ui/use-toast';
 import { CldImage, CldUploadWidget } from 'next-cloudinary';
+import { PlaceholderValue } from 'next/dist/shared/lib/get-img-props';
 import AppIcon from './app-ui/AppIcon';
 import { appIcons } from '@/constants/appIcons';
 import { dataUrl, getImageSize } from '@/lib/utils';
-import { PlaceholderValue } from 'next/dist/shared/lib/get-img-props';
 
 type MediaUploaderProps = {
   onValueChange: (value: string) => void;
@@ -22,7 +22,7 @@ const MediaUploader = ({
   image,
   type,
 }: MediaUploaderProps) => {
-  const onSuccessHandler = (result: any) => {
+  const onUploadSuccessHandler = (result: any) => {
     setImage((prevState: any) => ({
       ...prevState,
       publicId: result?.info?.public_id,
@@ -55,7 +55,7 @@ const MediaUploader = ({
         multiple: false,
         resourceType: 'image',
       }}
-      onSuccess={onSuccessHandler}
+      onSuccess={onUploadSuccessHandler}
       onError={onErrorHandler}
     >
       {({ open }) => (

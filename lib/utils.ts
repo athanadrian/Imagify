@@ -11,6 +11,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// RETURN FROM SERVER ACTION
+export const returnFromServerAction = (object: any) =>
+  JSON.parse(JSON.stringify(object));
+
 // ERROR HANDLER
 export const handleError = (error: unknown) => {
   if (error instanceof Error) {
