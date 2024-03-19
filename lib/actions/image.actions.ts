@@ -5,18 +5,20 @@ import { redirect } from 'next/navigation';
 
 import { AddImageParams, UpdateImageParams } from '@/types';
 import { connectToDatabase } from '../database/mongoose';
-import { returnFromServerAction } from '../utils';
+import { handleError, returnFromServerAction } from '../utils';
 import User from '../database/models/user.model';
 import Image from '../database/models/image.model';
 
 // ADD IMAGE
-export const addImage = async ({ image, userId, path }: AddImageParams) => {
+export async function addImage({ image, userId, path }: AddImageParams) {
   try {
     await connectToDatabase();
 
     const author = await User.findById(userId);
 
-    if (!author) throw new Error('User not found');
+    if (!author) {
+      throw new Error('User not found');
+    }
 
     const newImage = await Image.create({
       ...image,
@@ -24,11 +26,12 @@ export const addImage = async ({ image, userId, path }: AddImageParams) => {
     });
 
     revalidatePath(path);
-    return returnFromServerAction(newImage);
+
+    return JSON.parse(JSON.stringify(newImage));
   } catch (error) {
-    return error;
+    handleError(error);
   }
-};
+}
 
 // UPDATE IMAGE
 export const updateImage = async ({

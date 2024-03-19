@@ -9,8 +9,8 @@ import { dataUrl, getImageSize } from '@/lib/utils';
 
 type MediaUploaderProps = {
   onValueChange: (value: string) => void;
-  publicId: string;
   setImage: Dispatch<any>;
+  publicId: string;
   image: any;
   type: string;
 };
@@ -22,13 +22,15 @@ const MediaUploader = ({
   image,
   type,
 }: MediaUploaderProps) => {
+  const { toast } = useToast();
+
   const onUploadSuccessHandler = (result: any) => {
     setImage((prevState: any) => ({
       ...prevState,
       publicId: result?.info?.public_id,
       width: result?.info?.width,
       height: result?.info?.height,
-      secureUrl: result?.info?.secure_url,
+      secureURL: result?.info?.secure_url,
     }));
     onValueChange(result?.info?.public_id);
     toast({
@@ -47,7 +49,6 @@ const MediaUploader = ({
     });
   };
 
-  const { toast } = useToast();
   return (
     <CldUploadWidget
       uploadPreset='app_imagify'

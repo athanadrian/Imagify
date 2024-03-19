@@ -30,7 +30,7 @@ import { transformationTypes } from '@/constants/lookup-data/transformationTypes
 import { defaultValues } from '@/constants/lookup-data/misc';
 import { aspectRatioOptions } from '@/constants/lookup-data/aspectRatioOptions';
 
-const formSchema = z.object({
+export const formSchema = z.object({
   title: z.string(),
   aspectRatio: z.string().optional(),
   color: z.string().optional(),
@@ -48,11 +48,11 @@ const TransformationForm = ({
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
   const [image, setImage] = useState(data);
+  const [newTransformation, setNewTransformation] =
+    useState<Transformations | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
   const [transformationConfig, setTransformationConfig] = useState(config);
-  const [newTransformation, setNewTransformation] =
-    useState<Transformations | null>(null);
   const [isPending, startTransition] = useTransition();
   const { router } = useNavigation();
   const initialValues =
@@ -88,15 +88,16 @@ const TransformationForm = ({
         title: values.title,
         publicId: image?.publicId!,
         transformationType: type,
-        width: image?.width!,
-        height: image?.height!,
+        width: image?.width,
+        height: image?.height,
         config: transformationConfig,
-        secureURL: image?.secureURL!,
+        secureURL: image?.secureURL,
         transformationURL: transformationUrl,
         aspectRatio: values.aspectRatio,
         prompt: values.prompt,
         color: values.color,
       };
+
       if (action === 'Add') {
         try {
           const newImage = await addImage({
@@ -114,10 +115,14 @@ const TransformationForm = ({
           console.log(error);
         }
       }
+
       if (action === 'Update') {
         try {
           const updatedImage = await updateImage({
-            image: { ...imageData, _id: data?._id },
+            image: {
+              ...imageData,
+              _id: data?._id,
+            },
             userId,
             path: `/transformations/${data?._id}`,
           });
@@ -130,7 +135,10 @@ const TransformationForm = ({
         }
       }
     }
+
+    setIsSubmitting(false);
   }
+
   const onSelectFieldHandler = (
     value: string,
     onChangeField: (value: string) => void
