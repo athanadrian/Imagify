@@ -17,7 +17,7 @@ import { BsStars } from 'react-icons/bs';
 import { RiUserReceived2Line } from 'react-icons/ri';
 import { BiSolidShoppingBag } from 'react-icons/bi';
 import { LuScanLine } from 'react-icons/lu';
-import { AiOutlineBgColors } from 'react-icons/ai';
+import { AiOutlineBgColors, AiOutlineClose } from 'react-icons/ai';
 import { FiZap } from 'react-icons/fi';
 import { GoHomeFill } from 'react-icons/go';
 import { IoDownloadSharp } from 'react-icons/io5';
@@ -47,4 +47,5 @@ export const appIcons = {
   sign_in: RiUserReceived2Line,
   sign_up: PiUserCirclePlusBold,
   add: MdOutlineAdd,
+  close: AiOutlineClose,
 };
